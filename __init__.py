@@ -83,8 +83,3 @@ class Command:
         for i,c in enumerate(carets):
             id_ = CARET_SET_ONE if i == 0 else CARET_ADD
             self.ed.set_caret(*c, id=id_, options=CARET_OPTION_NO_SCROLL)
-
-
-
-
-
