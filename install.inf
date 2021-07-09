@@ -1,0 +1,12 @@
+[info]
+title=Git Conflict Solver
+desc=Adds a command to solve git merge conflicts
+type=cudatext-plugin
+subdir=cuda_git_conflict
+homepage=(Fill the GitHub repo URL)
+
+[item2]
+section=commands
+caption=Git Conflict Solver\Solve nearest conflict
+method=solve_nearest
+
