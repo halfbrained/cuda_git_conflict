@@ -25,11 +25,15 @@ class Command:
 
                 res = self._choose_commit(conflict, sep_line)
                 if res is not None:
-                    # line indexes are inclusive
-                    choice_range = (conflict[1]+1, sep_line-1) if res == 0 else (sep_line+1, conflict[3]-1)
-                    # del text after and before choice-text
-                    self.ed.replace_lines(choice_range[1]+1, conflict[3],       [])
-                    self.ed.replace_lines(conflict[1],       choice_range[0]-1, [])
+                    if res < 2:
+                        # line indexes are inclusive
+                        choice_range = (conflict[1]+1, sep_line-1) if res == 0 else (sep_line+1, conflict[3]-1)
+                        # del text after and before choice-text
+                        self.ed.replace_lines(choice_range[1]+1, conflict[3],       [])
+                        self.ed.replace_lines(conflict[1],       choice_range[0]-1, [])
+                    else: # keep both
+                        for y in (conflict[3], sep_line, conflict[1]):
+                            self.ed.replace_lines(y, y, [])
             else:
                 msg_status('No conflicts found')
 
@@ -45,11 +49,15 @@ class Command:
 
         dlg_items = []
         for caption,l_ch in zip(('Current change', 'Incoming change'), (l_change0, l_change1)):
-            if l_ch[0] != l_ch[1]:
-                _lines_str = 'lines {}-{}'.format(*l_ch)
-            else:
-                _lines_str = 'line '+str(l_ch[0])
+            if l_ch:
+                if l_ch[0] != l_ch[1]:
+                    _lines_str = 'lines {}-{}'.format(*l_ch)
+                else:
+                    _lines_str = 'line '+str(l_ch[0])
             dlg_items.append(caption +'\t'+ _lines_str)
+
+        dlg_items.append('Both')
+        assert len(dlg_items) == 3
 
         res = dlg_menu(DMENU_LIST, dlg_items)
         return res
