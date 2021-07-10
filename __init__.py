@@ -22,6 +22,8 @@ class Command:
             if conflict  and  sep_line is not None:
                 self._set_conflict_bookmarks(conflict, sep_line)
 
+                self.set_carets(self.carets) # restore carets
+
                 # scroll to conflict
                 if not self._is_line_on_screen(conflict[1])  or  not self._is_line_on_screen(conflict[3]):
                     self.ed.set_prop(PROP_LINE_TOP, conflict[1])
@@ -45,8 +47,8 @@ class Command:
 
         finally:
             self.ed.bookmark(BOOKMARK_DELETE_BY_TAG, nline=0, tag=BM_TAG)
-            self.set_carets(self.carets)
             self.ed = None
+            self.carets = None
 
 
     def _choose_commit(self, conflict, sep_line):
