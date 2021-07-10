@@ -3,7 +3,7 @@ title=Git Conflict Solver
 desc=Adds a command to solve git merge conflicts
 type=cudatext-plugin
 subdir=cuda_git_conflict
-homepage=(Fill the GitHub repo URL)
+homepage=https://github.com/halfbrained/cuda_git_conflict
 
 [item2]
 section=commands
