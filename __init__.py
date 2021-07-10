@@ -58,10 +58,9 @@ class Command:
         dlg_items = []
         for caption,l_ch in zip(('Current change', 'Incoming change'), (l_change0, l_change1)):
             if l_ch:
-                if l_ch[0] != l_ch[1]:
-                    _lines_str = 'lines {}-{}'.format(*l_ch)
-                else:
-                    _lines_str = 'line '+str(l_ch[0])
+                if   l_ch[0] > l_ch[1]: _lines_str = 'empty'
+                elif l_ch[0] < l_ch[1]: _lines_str = 'lines {}-{}'.format(*l_ch)
+                else:                   _lines_str = 'line '+str(l_ch[0])
             dlg_items.append(caption +'\t'+ _lines_str)
 
         dlg_items.append('Both')
