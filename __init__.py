@@ -67,7 +67,7 @@ class Command:
         dlg_items.append('Both')
         assert len(dlg_items) == 3
 
-        res = dlg_menu(DMENU_LIST, dlg_items)
+        res = dlg_menu(DMENU_LIST, dlg_items, caption='Git Conflict Solver')
         return res
 
 
