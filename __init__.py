@@ -1,6 +1,9 @@
 import os
 from cudatext import *
 
+from cudax_lib import get_translation
+_ = get_translation(__file__)  # I18N
+
 re_pattern = r'^<<<<<<< .*\n(.*\n)*?^=======\n(.*\n)*?^>>>>>>> .*'
 
 BM_TAG = app_proc(PROC_GET_UNIQUE_TAG, '')
@@ -43,7 +46,7 @@ class Command:
                         for y in (conflict[3], sep_line, conflict[1]):
                             self.ed.replace_lines(y, y, [])
             else:
-                msg_status('No conflicts found')
+                msg_status(_('No conflicts found'))
 
         finally:
             self.ed.bookmark(BOOKMARK_DELETE_BY_TAG, nline=0, tag=BM_TAG)
@@ -56,17 +59,17 @@ class Command:
         l_change1 = (sep_line+1+1,    conflict[3])
 
         dlg_items = []
-        for caption,l_ch in zip(('Current change', 'Incoming change'), (l_change0, l_change1)):
+        for caption,l_ch in zip((_('Current change'), _('Incoming change')), (l_change0, l_change1)):
             if l_ch:
-                if   l_ch[0] > l_ch[1]: _lines_str = 'empty'
-                elif l_ch[0] < l_ch[1]: _lines_str = 'lines {}-{}'.format(*l_ch)
-                else:                   _lines_str = 'line '+str(l_ch[0])
+                if   l_ch[0] > l_ch[1]: _lines_str = _('empty')
+                elif l_ch[0] < l_ch[1]: _lines_str = _('lines {}-{}').format(*l_ch)
+                else:                   _lines_str = _('line ')+str(l_ch[0])
             dlg_items.append(caption +'\t'+ _lines_str)
 
-        dlg_items.append('Both')
+        dlg_items.append(_('Both'))
         assert len(dlg_items) == 3
 
-        res = dlg_menu(DMENU_LIST, dlg_items, caption='Git Conflict Solver')
+        res = dlg_menu(DMENU_LIST, dlg_items, caption=_('Git Conflict Solver'))
         return res
 
 
